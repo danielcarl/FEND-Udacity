@@ -3,30 +3,39 @@
 	<head>
 		<meta charset="utf-8">
 		<title>FEND Project 5: Neighborhood Map Project</title>
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<div id="tabHeader">
-			<h1>Neighborhood: <span data-bind="text: name"></h1>
-			<h2><span data-bind="text: cityAndState"></h2>
-		</div>
-		<table id="pointOfInterestList">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Category</th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: pointsOfInterest">
-				<tr>
-					<td data-bind="text: name"></td>
-					<td data-bind="text: category"></td>
-				</tr>
-		</table>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12" id="tabHeader">
+					<h1><span data-bind="text: neighborhood.name"></h1>
+					<h2><span data-bind="text: neighborhood.city"></h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<table id="pointOfInterestList">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Category</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: pointsOfInterest">
+							<tr>
+								<td data-bind="text: name"></td>
+								<td data-bind="text: category"></td>
+							</tr>
+						</tbody>
+					</table>	
+				<div class="col-md-8" id="map"></div>
 <!--
-		<div id="map"></div>
-		<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>
--->
+				<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>
+-->	
+			</div>		
+		</div> <!-- container -->
 		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/knockout-3.3.0.js"></script>
 		<script src="js/app.js"></script>
