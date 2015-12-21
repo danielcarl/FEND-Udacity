@@ -1,59 +1,42 @@
-var NeighborhoodMap = function () {
-	
-	var neighborhood = {
-		name: ko.observable('Bouldin'),
-		city: ko.observable('Austin'),
-		state: ko.observable('TX'),
-		zip: ko.observable(78704),
-		latLng: {lat: 30.255, lng: -97.755},
-	};
+var places = [
+	{"name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.256403, lng: -97.7634876}},
+	{"name" : "Buzzmill", "category" : "Coffee Shops", "latLng" : {lat: 30.2417288, lng: -97.7290856}},
+	{"name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267225, lng: -97.7413017}},
+	{"name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.2380491, lng: -97.7416047}},
+	{"name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.2669684, lng: -97.7464867}},
+	{"name" : "Steve Jackson Games", "category" : "Entertainment", "latLng" : {lat: 30.2092739, lng: -97.730085}},
+	{"name" : "Tribe Comics And Games", "category" : "Entertainment", "latLng" : {lat: 30.2414233, lng: -97.7863233}}
+];
 
-	var pointsOfInterest = ko.observableArray([
+var neighborhoodViewModel = function() {
 
-  		new PointOfInterest('Dominican Joe', 30.2561064, -97.7469545, 'coffee shops'),
-    	new PointOfInterest('South Congress Books', 30.2504842, -97.7526313, 'book stores'),
-		new PointOfInterest('Elizabeth Street Cafe', 30.2471979, -97.7556907, 'restaurants'),
-    	new PointOfInterest('Alamo Drafthouse', 30.256403, -97.7634876, 'entertainment'),
-    	// new PointOfInterest('Buzz Mill', 30.2600000, -97.7400000, 'coffee shops'),
-    	// new PointOfInterest('Chupacapra', 30.2600000, -97.7400000, 'nightlife'),
-    	// new PointOfInterest('Whip In', 30.2600000, -97.7400000, 'restaurants'),
-    	new PointOfInterest('South Congress Cafe', 30.2504842, -97.7526313, 'restaurants')
+	var self = this;
 
-	]);
+	self.neighborhoodName = ko.observable("South Congress");
+	self.neighborhoodCity = ko.observable("Austin");
+	self.neighborhoodState = ko.observable("TX");
+	self.neighborhoodPostalCode = ko.observable(78704);
+	self.latLng = {lat: 30.255, lng: -97.755};
+	self.pointsOfInterest = ko.observableArray(places);
 
-	function PointOfInterest(name, latitude, longitude, category) {
+	self.query = ko.observable('');
 
-		var self = this;
-		self.name = name;
-		self.latitude = latitude;
-		self.longitude = longitude;
-		self.category = category;
+	self.search = ko.computed(function() {
+		return ko.utils.arrayFilter(self.pointsOfInterest(), function(point){
+			return point.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+		});
+	});
+};
 
-		// creates a letLng object, to be used with the Google Map API
-		self.latLng = ko.computed(function() {
+var map;
 
-			latLngObject = {
-				latitude,
-				longitude
-			}
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 30.255, lng: -97.755},
+    zoom: 14
+  });
+}
 
-			console.log(latLngObject);
-			return latLngObject
 
-		}, self);
 
-	}
-
-	var init = function () {
-		ko.applyBindings(NeighborhoodMap);
-	};
-
-	$(init);
-
-	return {
-		neighborhood: neighborhood,
-		pointsOfInterest: pointsOfInterest,
-		PointOfInterest: PointOfInterest
-	};
-
-}();
+ko.applyBindings(new neighborhoodViewModel());

@@ -10,12 +10,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12" id="tabHeader">
-					<h1><span data-bind="text: neighborhood.name"></h1>
-					<h2><span data-bind="text: neighborhood.city"></h2>
+					<h1><span data-bind="text: neighborhoodName()"></h1>
+					<h2><span data-bind="text: neighborhoodCity()"></h2>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-4">
+						<input placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
 					<table id="pointOfInterestList">
 						<thead>
 							<tr>
@@ -23,19 +24,20 @@
 								<th>Category</th>
 							</tr>
 						</thead>
-						<tbody data-bind="foreach: pointsOfInterest">
+						<tbody data-bind="foreach: search()">
 							<tr>
 								<td data-bind="text: name"></td>
 								<td data-bind="text: category"></td>
 							</tr>
 						</tbody>
-					</table>	
-				<div class="col-md-8" id="map"></div>
-<!--
-				<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>
--->	
-			</div>		
+					</table>
+				</div>
+			</div>
+			<div class="col-md-8">
+			</div>
 		</div> <!-- container -->
+		<div id="map"></div>
+		<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>	
 		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/knockout-3.3.0.js"></script>
 		<script src="js/app.js"></script>
