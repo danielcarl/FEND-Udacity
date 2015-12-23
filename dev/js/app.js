@@ -53,13 +53,19 @@ var neighborhoodViewModel = function() {
 	});
 };
 
-var map;
-
 function initMap() {
-  	map = new google.maps.Map(document.getElementById('map'), {
+  	var map = new google.maps.Map(document.getElementById('map'), {
 		center: neighborhood.latLng,
     	zoom: 14
   	});
+
+  	for (var place in places) {
+  		var marker = new google.maps.Marker({
+  			position: places[place].latLng,
+  			title: places[place].name
+  		});
+  		marker.setMap(map);
+  	};
 }
 
 ko.applyBindings(new neighborhoodViewModel());
