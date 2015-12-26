@@ -4,14 +4,15 @@ html, body {
     padding: 0;
 }
 
-#tabHeader {
+#search-list {
 
 }
 
-#pointOfInterestList {
+#tab-header {
 
 }
 
 #map {
+	width: 75%;
     height: 100%;
 }

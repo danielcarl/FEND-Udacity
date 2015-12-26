@@ -3,7 +3,7 @@ var neighborhood = {
 	"city" : "Austin",
 	"state" : "TX",
 	"postalCode" : 78704,
-	"latLng" : {lat: 30.255, lng: -97.755}
+	"latLng" : {lat: 30.2549803, lng: -97.7494088}
 };
 
 var places = [
@@ -54,17 +54,33 @@ var neighborhoodViewModel = function() {
 };
 
 function initMap() {
-  	var map = new google.maps.Map(document.getElementById('map'), {
+
+	var mapOptions = {
+		zoom: 14,
 		center: neighborhood.latLng,
-    	zoom: 14
-  	});
+		disableDefaultUI: true
+	}
+
+  	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   	for (var place in places) {
   		var marker = new google.maps.Marker({
   			position: places[place].latLng,
+  			map: map,
   			title: places[place].name
   		});
-  		marker.setMap(map);
+  		attachInfoWindow(marker);
+  	};
+
+  	// currently just attaches the name to the info window; will hold wikipedia details
+  	function attachInfoWindow(marker) {
+	
+  		var infoWindow = new google.maps.InfoWindow({
+  			content: marker.title
+  		});
+ 		marker.addListener('click', function() {
+  			infoWindow.open(marker.get('map'), marker);
+  		});
   	};
 }
 

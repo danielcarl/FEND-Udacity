@@ -9,13 +9,7 @@
 	<body>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12" id="tabHeader">
-					<h1><span data-bind="text: neighborhoodName()"></h1>
-					<h2><span data-bind="text: neighborhoodCityState()"></h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4" id="search-list">
 						<input placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
 					<table id="pointOfInterestList">
 						<thead>
@@ -32,8 +26,10 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<div class="col-md-8">
+				<div class="col-md-8" id="tab-header">
+					<h1><span data-bind="text: neighborhoodName()"></h1>
+					<h2><span data-bind="text: neighborhoodCityState()"></h2>
+				</div>
 			</div>
 		</div> <!-- container -->
 		<div id="map"></div>
