@@ -1,3 +1,6 @@
+var markers = [];
+var map;
+
 var neighborhood = {
 	"name" : "South Congress",
 	"city" : "Austin",
@@ -25,63 +28,89 @@ ko.utils.stringStartsWith = function (string, startsWith) {
 };
 
 var neighborhoodViewModel = function() {
-
 	var self = this;
-
 	// Creates observables for neighborhood
 	self.neighborhoodName = ko.observable(neighborhood.name);
 	self.neighborhoodCity = ko.observable(neighborhood.city);
 	self.neighborhoodState = ko.observable(neighborhood.state);
 	self.neighborhoodPostalCode = ko.observable(neighborhood.postalCode);
-
 	// Creates observable array for points of interest; used to create searchable array
 	self.pointsOfInterest = ko.observableArray(places);
-
 	// Creates a computed string for city, state, and zip.
 	self.neighborhoodCityState = ko.computed(function() {
 		return self.neighborhoodCity() + ', ' + self.neighborhoodState() + ' ' + self.neighborhoodPostalCode();
 	}, this);
-
 	// Search filter for point of interst list. Modified from http://codepen.io/JohnMav/pen/OVEzWM/ -
 	// my version matches from the beginning of the string only.
 	self.query = ko.observable('');
-
 	self.search = ko.computed(function() {
-		return ko.utils.arrayFilter(self.pointsOfInterest(), function(pointOfInterest){
-			return ko.utils.stringStartsWith(pointOfInterest.name.toLowerCase(), self.query().toLowerCase());
+
+		hideMarkers();
+
+		var filteredArrayResults = ko.utils.arrayFilter(self.pointsOfInterest(), function(pointOfInterest){
+			var filteredPointNames = ko.utils.stringStartsWith(pointOfInterest.name.toLowerCase(), self.query().toLowerCase());
+			return filteredPointNames;
 		});
+		
+		for (var marker in markers) {
+			console.log('marker: ' + markers[marker].title);
+			for (var filteredArrayResult in filteredArrayResults) {
+				console.log('array: ' + filteredArrayResults[filteredArrayResult].name);
+				if (markers[marker].title == filteredArrayResults[filteredArrayResult].name) {
+					markers[marker].setVisible(true);
+				};
+			};
+		};
+//		showMarkers(filteredArrayResults);
+		return filteredArrayResults;
 	});
 };
 
-function initMap() {
+function hideMarkers() {
+	for (var marker in markers) {
+		markers[marker].setVisible(false);
+	};
+};
 
+function showMarkers(resultArray) {
+	for (var result in resultArray) {
+		console.log('resultArray: ' + resultArray[result].name);
+		for (var marker in markers) {
+			console.log('marker: ' + markers[marker].title);
+		};
+	};
+};
+
+function initMap() {
 	var mapOptions = {
 		zoom: 14,
 		center: neighborhood.latLng,
 		disableDefaultUI: true
-	}
+	};
+  	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  	initMarkers();
+};
 
-  	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-  	for (var place in places) {
+function initMarkers() {
+	for (var place in places) {
   		var marker = new google.maps.Marker({
   			position: places[place].latLng,
-  			map: map,
   			title: places[place].name
   		});
   		attachInfoWindow(marker);
+  		marker.setMap(map);
+  		// I want to use this to make all markers viewable (or not) based on search results. Working on the logic to make it work.
+  		markers.push(marker);
   	};
+};
 
-  	// currently just attaches the name to the info window; will hold wikipedia details
-  	function attachInfoWindow(marker) {
-	
-  		var infoWindow = new google.maps.InfoWindow({
-  			content: marker.title
-  		});
- 		marker.addListener('click', function() {
-  			infoWindow.open(marker.get('map'), marker);
-  		});
-  	};
-}
+function attachInfoWindow(marker) {
+	var infoWindow = new google.maps.InfoWindow({
+		content: marker.title
+	});
+	marker.addListener('click', function() {
+		infoWindow.open(marker.get('map'), marker);
+	});
+};
 
 ko.applyBindings(new neighborhoodViewModel());
