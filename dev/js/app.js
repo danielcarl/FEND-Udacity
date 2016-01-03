@@ -28,30 +28,31 @@ ko.utils.stringStartsWith = function (string, startsWith) {
 };
 
 var neighborhoodViewModel = function() {
+
 	var self = this;
-	// Creates observables for neighborhood
 	self.neighborhoodName = ko.observable(neighborhood.name);
 	self.neighborhoodCity = ko.observable(neighborhood.city);
 	self.neighborhoodState = ko.observable(neighborhood.state);
 	self.neighborhoodPostalCode = ko.observable(neighborhood.postalCode);
+
 	// Creates observable array for points of interest; used to create searchable array
 	self.pointsOfInterest = ko.observableArray(places);
+
 	// Creates a computed string for city, state, and zip. Used to allow for cleaner display in map header.
 	self.neighborhoodCityState = ko.computed(function() {
 		return self.neighborhoodCity() + ', ' + self.neighborhoodState() + ' ' + self.neighborhoodPostalCode();
 	}, this);
+
 	// Search filter for point of interst list. Modified from http://codepen.io/JohnMav/pen/OVEzWM/ -
 	// my version is modified to match from the beginning of the string only.
 	self.query = ko.observable('');
+
 	self.search = ko.computed(function() {
-
 		hideMarkers();
-
 		var filteredArrayResults = ko.utils.arrayFilter(self.pointsOfInterest(), function(pointOfInterest){
 			var filteredPointNames = ko.utils.stringStartsWith(pointOfInterest.name.toLowerCase(), self.query().toLowerCase());
 			return filteredPointNames;
 		});
-		
 		for (var marker in markers) {
 			for (var filteredArrayResult in filteredArrayResults) {
 				if (markers[marker].title == filteredArrayResults[filteredArrayResult].name) {
@@ -59,9 +60,17 @@ var neighborhoodViewModel = function() {
 				};
 			};
 		};
-//		showMarkers(filteredArrayResults);
 		return filteredArrayResults;
 	});
+
+	self.displayInfoWindowFromList = function(listItem) {
+		console.log(listItem.name);
+		for (var marker in markers) {
+			if (markers[marker].title == listItem.name) {
+				displayInfoWindow(markers[marker]);
+			};
+		};
+	};
 };
 
 // loops through the markers array and makes all invisible, including infoWindows
@@ -103,14 +112,22 @@ function initMarkers() {
 };
 
 function attachInfoWindow(marker) {
-		marker.infoWindow = new google.maps.InfoWindow({
+	marker.infoWindow = new google.maps.InfoWindow({
 		content: marker.title
 	});
-	marker.addListener('click', function() {
-		closeInfoWindows();
-		marker.infoWindow.open(marker.get('map'), marker);
+	marker.addListener('click', function() { 
+		displayInfoWindow(marker); 
 	});
 };
+
+function displayInfoWindow(marker) {
+		closeInfoWindows();
+		marker.infoWindow.open(marker.get('map'), marker);
+}
+
+function displayInfoWindowFromList(listItem) {
+		console.log('clicked item: ' + listItem);
+	};
 
 function closeInfoWindows() {
 	for (var marker in markers) {
