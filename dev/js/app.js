@@ -36,12 +36,12 @@ var neighborhoodViewModel = function() {
 	self.neighborhoodPostalCode = ko.observable(neighborhood.postalCode);
 	// Creates observable array for points of interest; used to create searchable array
 	self.pointsOfInterest = ko.observableArray(places);
-	// Creates a computed string for city, state, and zip.
+	// Creates a computed string for city, state, and zip. Used to allow for cleaner display in map header.
 	self.neighborhoodCityState = ko.computed(function() {
 		return self.neighborhoodCity() + ', ' + self.neighborhoodState() + ' ' + self.neighborhoodPostalCode();
 	}, this);
 	// Search filter for point of interst list. Modified from http://codepen.io/JohnMav/pen/OVEzWM/ -
-	// my version matches from the beginning of the string only.
+	// my version is modified to match from the beginning of the string only.
 	self.query = ko.observable('');
 	self.search = ko.computed(function() {
 
@@ -53,9 +53,7 @@ var neighborhoodViewModel = function() {
 		});
 		
 		for (var marker in markers) {
-			console.log('marker: ' + markers[marker].title);
 			for (var filteredArrayResult in filteredArrayResults) {
-				console.log('array: ' + filteredArrayResults[filteredArrayResult].name);
 				if (markers[marker].title == filteredArrayResults[filteredArrayResult].name) {
 					markers[marker].setVisible(true);
 				};
@@ -66,7 +64,9 @@ var neighborhoodViewModel = function() {
 	});
 };
 
+// loops through the markers array and makes all invisible, including infoWindows
 function hideMarkers() {
+	closeInfoWindows();
 	for (var marker in markers) {
 		markers[marker].setVisible(false);
 	};
@@ -74,9 +74,7 @@ function hideMarkers() {
 
 function showMarkers(resultArray) {
 	for (var result in resultArray) {
-		console.log('resultArray: ' + resultArray[result].name);
 		for (var marker in markers) {
-			console.log('marker: ' + markers[marker].title);
 		};
 	};
 };
@@ -99,18 +97,27 @@ function initMarkers() {
   		});
   		attachInfoWindow(marker);
   		marker.setMap(map);
-  		// I want to use this to make all markers viewable (or not) based on search results. Working on the logic to make it work.
+  		// creates an array of markers, used to set visibility with the search window
   		markers.push(marker);
   	};
 };
 
 function attachInfoWindow(marker) {
-	var infoWindow = new google.maps.InfoWindow({
+		marker.infoWindow = new google.maps.InfoWindow({
 		content: marker.title
 	});
 	marker.addListener('click', function() {
-		infoWindow.open(marker.get('map'), marker);
+		closeInfoWindows();
+		marker.infoWindow.open(marker.get('map'), marker);
 	});
+};
+
+function closeInfoWindows() {
+	for (var marker in markers) {
+		if(markers[marker].infoWindow) {
+			markers[marker].infoWindow.close();
+		};
+	};
 };
 
 ko.applyBindings(new neighborhoodViewModel());
