@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>FEND Project 5: Neighborhood Map Project</title>
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/style.css">
-	</head>
-	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4" id="search-list">
-						<input placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
-					<table id="pointOfInterestList">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Category</th>
-							</tr>
-						</thead>
-						<tbody data-bind="foreach: search()">
-							<tr>
-								<td><a href="#" data-bind="click: $root.displayInfoWindowFromList"><span data-bind="text: name"></a></td>
-								<td><span data-bind="text: category"></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-8" id="tab-header">
-					<h1><span data-bind="text: neighborhoodName()"></h1>
-					<h2><span data-bind="text: neighborhoodCityState()"></h2>
-				</div>
-			</div>
-		</div> <!-- container -->
-		<div id="map"></div>
-		<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>	
-		<script src="js/jquery-1.11.3.min.js"></script>
-		<script src="js/knockout-3.3.0.js"></script>
-		<script src="js/app.js"></script>
-	</body>
+    <head>
+	<meta charset="utf-8">
+            <title>FEND Project 5: Neighborhood Map Project</title>
+            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+            <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+	<div class="container">
+            <div class="row">
+		<div class="col-md-4" id="search-list">
+                    <input placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
+                    <table id="pointOfInterestList">
+			<thead>
+                            <tr>
+				<th>Name</th>
+				<th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: search()">
+                            <tr>
+				<td><a href="#" data-bind="click: $root.displayInfoWindowFromList"><span data-bind="text: name"></a></td>
+				<td><span data-bind="text: category"></td>
+                            </tr>
+			</tbody>
+                    </table>
+		</div>
+		<div class="col-md-8" id="tab-header">
+                    <h1><span data-bind="text: neighborhoodName()"></h1>
+                    <h2><span data-bind="text: neighborhoodCityState()"></h2>
+		</div>
+            </div>
+	</div> <!-- container -->
+	<div id="map"></div>
+            <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCbLGidc_NeBqkwdQaw9VYUsuR7IAkkb9U&callback=initMap"></script>	
+            <script src="js/jquery-1.11.3.min.js"></script>
+            <script src="js/knockout-3.3.0.js"></script>
+            <script src="js/app.js"></script>
+    </body>
 </html>
