@@ -1,5 +1,13 @@
+
+// initialize variables for Google Maps
 var markers = [];
 var map;
+
+// initialize variables for Foursquare
+var foursquare_url = "https://api.foursquare.com/v2/venues/";
+var foursquare_client_id = "IRLUA2C3M4OIYMTXTV0XJWLMIZJHTAVELIUODGPODGBEXSPD";
+var foursquare_client_secret = "0GJ300SJ5L3QH2KJO5HWA01DHFNEC1H14UE3T3IR3X50QHQM";
+var foursquare_api_version = "20130815";
 
 var neighborhood = {
 	"name" : "South Congress",
@@ -61,13 +69,11 @@ var neighborhoodViewModel = function() {
 		return filteredArrayResults;
 	});
 
+	// Refactored to use new marker object within places array
 	self.displayInfoWindowFromList = function(listItem) {
-		console.log(listItem.name);
-		for (var marker in markers) {
-			if (markers[marker].title == listItem.name) {
-				displayInfoWindow(markers[marker]);
-			};
-		};
+		console.log(listItem.marker.title);
+		console.log(listItem.foursquareData);
+		displayInfoWindow(listItem.marker);
 	};
 };
 
@@ -76,13 +82,6 @@ function hideMarkers() {
 	closeInfoWindows();
 	for (var marker in markers) {
 		markers[marker].setVisible(false);
-	};
-};
-
-function showMarkers(resultArray) {
-	for (var result in resultArray) {
-		for (var marker in markers) {
-		};
 	};
 };
 
@@ -96,8 +95,29 @@ function initMap() {
   	initMarkers();
 };
 
+function fetchFoursquareData(listItem) {
+		console.log("retrieving Foursquare data for " + listItem.name + "...");
+		var foursquareData = {};
+		foursquareQuery = foursquare_url + listItem.foursquare_id + '?client_id=' + foursquare_client_id + '&client_secret=' + foursquare_client_secret + '&v=' + foursquare_api_version;
+		$.getJSON(foursquareQuery, function(data) {
+			if (data.meta.code == 200) {
+//				console.log(data.response.venue);
+				foursquareData.venueName = data.response.venue.name;
+				foursquareData.venueRating = data.response.venue.rating;
+			} else {
+
+			};
+//			console.log(data.meta.code);
+		});
+		// TODO: verify code 200 result, otherwise handle error
+//		console.log(foursquareData);
+		return foursquareData;
+	};
+
 function initMarkers() {
 	for (var place in places) {
+		places[place].foursquareData = fetchFoursquareData(places[place]);
+		console.log(places[place].foursquareData.venueName);
   		var marker = new google.maps.Marker({
   			position: places[place].latLng,
   			title: places[place].name
@@ -106,9 +126,12 @@ function initMarkers() {
   		marker.setMap(map);
   		// creates an array of markers, used to set visibility with the search window
   		markers.push(marker);
+  		// EXPERIMENTAL - can I simply add the marker object to the existing array? It would make life so much easier...
+  		places[place].marker = marker;
   	};
 };
 
+// TODO: Modify this to use data from Foursquare; include error handling if no data is returned
 function attachInfoWindow(marker) {
 	marker.infoWindow = new google.maps.InfoWindow({
 		content: marker.title
@@ -119,13 +142,9 @@ function attachInfoWindow(marker) {
 };
 
 function displayInfoWindow(marker) {
-		closeInfoWindows();
-		marker.infoWindow.open(marker.get('map'), marker);
-}
-
-function displayInfoWindowFromList(listItem) {
-		console.log('clicked item: ' + listItem);
-	};
+	closeInfoWindows();
+	marker.infoWindow.open(marker.get('map'), marker);
+};
 
 function closeInfoWindows() {
 	for (var marker in markers) {
