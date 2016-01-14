@@ -18,12 +18,13 @@ var neighborhood = {
 	"latLng" : {lat: 30.2549803, lng: -97.7494088}
 };
 
+// TODO: Modify venueInfo to include 'loading...' text and distinct id's to assist with content replacement
 var places = [
-	{"name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3"},
-	{"name" : "Buzz Mill Coffee", "category" : "Coffee Shops", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233"},
-	{"name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3"},
-	{"name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3"},
-	{"name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3"},
+	{"name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info"><h3>Alamo Drafthouse Cinema – Ritz</h3><p>Foursquare rating: 9.5<br /><a href="undefined" target="new_fs">View on Foursquare</a><br /><a href="http://drafthouse.com/austin" target="new_h">View homepage</a></p></div>'},
+	{"name" : "Buzz Mill Coffee", "category" : "Coffee Shops", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info"><h3>Buzz Mill Coffee</h3><p>Foursquare rating: 8.8<br /><a href="undefined" target="new_fs">View on Foursquare</a><br /><a href="http://buzzmillcoffee.com" target="new_h">View homepage</a></p></div>'},
+	{"name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info"><h3>Chupacabra Cantina</h3><p>Foursquare rating: 6.7<br /><a href="undefined" target="new_fs">View on Foursquare</a><br /><a href="http://www.chupacabracantina.com" target="new_h">View homepage</a></p></div>'},
+	{"name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info"><h3>Whip In Convenience Store & Pub</h3><p>Foursquare rating: 9.2<br /><a href="undefined" target="new_fs">View on Foursquare</a><br /><a href="http://whipin.com" target="new_h">View homepage</a></p></div>'},
+	{"name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info"><h3>Frank Restaurant</h3><p>Foursquare rating: 9.2<br /><a href="undefined" target="new_fs">View on Foursquare</a><br /><a href="http://hotdogscoldbeer.com" target="new_h">View homepage</a></p></div>'},
 ];
 
 // This function is not included in the minified version of Knockout, so I included it here.
@@ -72,8 +73,6 @@ var neighborhoodViewModel = function() {
 
 	// Refactored to use new marker object within places array
 	self.displayInfoWindowFromList = function(listItem) {
-		console.log(listItem.marker.title);
-		console.log(listItem.foursquareData);
 		displayInfoWindow(listItem.marker);
 	};
 };
@@ -104,34 +103,27 @@ function fetchFoursquareData(listItem) {
 //			console.log(data.response.venue);
 			var venueName = data.response.venue.name;
 			var venueURL = data.response.venue.url;
-			var venueFoursquareURL = data.response.venue.canonicalURL;
+			var venueFoursquareURL = data.response.venue.canonicalUrl;
 			var venueRating = data.response.venue.rating;
 			// TODO: add error handling for missing fields (no URL, etc)
 			venueInfo = '<div class="info">' +
-				'<h1>' + venueName + '</h1>' +
+				'<h3>' + venueName + '</h3>' +
 				'<p>Foursquare rating: ' + venueRating + '<br />' + 
 				'<a href="' + venueFoursquareURL + '" target="new_fs">View on Foursquare</a><br />' +
 				'<a href="' + venueURL + '" target="new_h">View homepage</a></p></div>';
-//			console.log(venueInfo);
-//			listItem.venueInfo = venueInfo;
 		} else {
 			venueInfo = '<div class="info">' +
 				'<h1>Oops!</h1>' +
 				'<p>We are unable to access the Foursquare servers at this time. Please try again later.</p></div>';
-//			console.log(venueInfo);
-//			listItem.venueInfo = venueInfo;
 		};
-		console.log(venueInfo);
+//		console.log(venueInfo);
 	});
 	// TODO: verify code 200 result, otherwise handle error
-//	console.log(venueInfo);
 };
 
 function initMarkers() {
 	for (var place in places) {
 		fetchFoursquareData(places[place]);
-//		console.log(places[place].foursquareData.venueName);
-//		console.log(places[place].venueInfo);
   		var marker = new google.maps.Marker({
   			position: places[place].latLng,
   			title: places[place].name
