@@ -6,6 +6,7 @@ var map;
 // initialize variables for Foursquare
 var foursquare_url = "https://api.foursquare.com/v2/venues/";
 var foursquare_client_id = "IRLUA2C3M4OIYMTXTV0XJWLMIZJHTAVELIUODGPODGBEXSPD";
+// var foursquare_client_id = "FAKE_ID";	// Use to test Foursquare retrieval error handling
 var foursquare_client_secret = "0GJ300SJ5L3QH2KJO5HWA01DHFNEC1H14UE3T3IR3X50QHQM";
 var foursquare_api_version = "20130815";
 
@@ -96,33 +97,46 @@ function initMap() {
 };
 
 function fetchFoursquareData(listItem) {
-		console.log("retrieving Foursquare data for " + listItem.name + "...");
-		var foursquareData = {};
-		foursquareQuery = foursquare_url + listItem.foursquare_id + '?client_id=' + foursquare_client_id + '&client_secret=' + foursquare_client_secret + '&v=' + foursquare_api_version;
-		$.getJSON(foursquareQuery, function(data) {
-			if (data.meta.code == 200) {
-//				console.log(data.response.venue);
-				foursquareData.venueName = data.response.venue.name;
-				foursquareData.venueRating = data.response.venue.rating;
-			} else {
-
-			};
-//			console.log(data.meta.code);
-		});
-		// TODO: verify code 200 result, otherwise handle error
-//		console.log(foursquareData);
-		return foursquareData;
-	};
+	foursquareQuery = foursquare_url + listItem.foursquare_id + '?client_id=' + foursquare_client_id + '&client_secret=' + foursquare_client_secret + '&v=' + foursquare_api_version;
+	var venueInfo;
+	$.getJSON(foursquareQuery, function(data) {
+		if (data.meta.code == 200) {
+//			console.log(data.response.venue);
+			var venueName = data.response.venue.name;
+			var venueURL = data.response.venue.url;
+			var venueFoursquareURL = data.response.venue.canonicalURL;
+			var venueRating = data.response.venue.rating;
+			// TODO: add error handling for missing fields (no URL, etc)
+			venueInfo = '<div class="info">' +
+				'<h1>' + venueName + '</h1>' +
+				'<p>Foursquare rating: ' + venueRating + '<br />' + 
+				'<a href="' + venueFoursquareURL + '" target="new_fs">View on Foursquare</a><br />' +
+				'<a href="' + venueURL + '" target="new_h">View homepage</a></p></div>';
+//			console.log(venueInfo);
+//			listItem.venueInfo = venueInfo;
+		} else {
+			venueInfo = '<div class="info">' +
+				'<h1>Oops!</h1>' +
+				'<p>We are unable to access the Foursquare servers at this time. Please try again later.</p></div>';
+//			console.log(venueInfo);
+//			listItem.venueInfo = venueInfo;
+		};
+		console.log(venueInfo);
+	});
+	// TODO: verify code 200 result, otherwise handle error
+//	console.log(venueInfo);
+};
 
 function initMarkers() {
 	for (var place in places) {
-		places[place].foursquareData = fetchFoursquareData(places[place]);
-		console.log(places[place].foursquareData.venueName);
+		fetchFoursquareData(places[place]);
+//		console.log(places[place].foursquareData.venueName);
+//		console.log(places[place].venueInfo);
   		var marker = new google.maps.Marker({
   			position: places[place].latLng,
   			title: places[place].name
   		});
-  		attachInfoWindow(marker);
+  		attachInfoWindow(marker, places[place].venueInfo);
   		marker.setMap(map);
   		// creates an array of markers, used to set visibility with the search window
   		markers.push(marker);
@@ -132,9 +146,9 @@ function initMarkers() {
 };
 
 // TODO: Modify this to use data from Foursquare; include error handling if no data is returned
-function attachInfoWindow(marker) {
+function attachInfoWindow(marker, foursquareContent) {
 	marker.infoWindow = new google.maps.InfoWindow({
-		content: marker.title
+		content: foursquareContent
 	});
 	marker.addListener('click', function() { 
 		displayInfoWindow(marker); 
