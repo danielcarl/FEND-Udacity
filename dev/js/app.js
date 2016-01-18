@@ -5,7 +5,8 @@ var map;
 
 // initialize variables for Foursquare
 var foursquare_url = "https://api.foursquare.com/v2/venues/";
-var foursquare_client_id = "IRLUA2C3M4OIYMTXTV0XJWLMIZJHTAVELIUODGPODGBEXSPD";
+// var foursquare_client_id = "IRLUA2C3M4OIYMTXTV0XJWLMIZJHTAVELIUODGPODGBEXSPD";
+var foursquare_client_id = "FNORD";
 var foursquare_client_secret = "0GJ300SJ5L3QH2KJO5HWA01DHFNEC1H14UE3T3IR3X50QHQM";
 var foursquare_api_version = "20130815";
 
@@ -18,11 +19,11 @@ var neighborhood = {
 };
 
 var places = [
-	{"id" : "1", "name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info" id="1"><h3>This is id 1</h3></div>'},
-	{"id" : "2", "name" : "Buzz Mill Coffee", "category" : "Coffee Shops", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info" id="2"><h3>This is id 2</h3></div>'},
-	{"id" : "3", "name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info" id="3"><h3>This is id 3</h3></div>'},
-	{"id" : "4", "name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info" id="4"><h3>This is id 4</h3></div>'},
-	{"id" : "5", "name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info" id="5"><h3>This is id 5</h3></div>'}
+	{"id" : "markerOne", "name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info" id="markerOne"><h3>This is id 1</h3></div>'},
+	{"id" : "markerTwo", "name" : "Buzz Mill Coffee", "category" : "Coffee Shops", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info" id="markerTwo"><h3>This is id 2</h3></div>'},
+	{"id" : "markerThree", "name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info" id="markerThree"><h3>This is id 3</h3></div>'},
+	{"id" : "markerFour", "name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info" id="markerFour"><h3>This is id 4</h3></div>'},
+	{"id" : "markerFive", "name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info" id="markerFive"><h3>This is id 5</h3></div>'}
 ];
 
 // This function is not included in the minified version of Knockout, so I included it here.
@@ -98,29 +99,27 @@ function fetchFoursquareData(listItem) {
 	var newVenueInfo;
 	var venueInfoWindowDiv;
 	$.getJSON(foursquareQuery, function(data) {
-		var venueInfoWindowDiv = '#' + listItem.id;
-		console.log(venueInfoWindowDiv);
+		venueInfoWindowDiv = '#' + listItem.id;
 		if (data.meta.code == 200) {
-//			console.log(data.response.venue);
+			// TODO: add error handling for missing fields (no URL, etc)
 			var venueName = data.response.venue.name;
 			var venueURL = data.response.venue.url;
 			var venueFoursquareURL = data.response.venue.canonicalUrl;
 			var venueRating = data.response.venue.rating;
-			// TODO: add error handling for missing fields (no URL, etc)
 			newVenueInfo = '<h3>' + venueName + '</h3>' +
 				'<p>Foursquare rating: ' + venueRating + '<br />' + 
 				'<a href="' + venueFoursquareURL + '" target="new_fs">View on Foursquare</a><br />' +
 				'<a href="' + venueURL + '" target="new_h">View homepage</a></p>';
-			console.log("venueInfo: " + listItem.venueInfo);
-			console.log("newVenueInfo: " + newVenueInfo);
-			$(venueInfoWindowDiv).append(newVenueInfo);
+			listItem.marker.infoWindow.content = newVenueInfo;
 		} else {
-			newVenueInfo = '<h1>Oops!</h1>' +
-				'<p>We are unable to access the Foursquare servers at this time. Please try again later.</p>';
-			console.log(newVenueInfo);
-			$(venueInfoWindowDiv).append(newVenueInfo);
+			newVenueInfo = '<h3>Oops!</h3>' +
+				'<p>We are unable to access the Foursquare servers at this time.<br />Please try again later.</p>';
+			listItem.marker.infoWindow.content = newVenueInfo;
 		};
-//		console.log(venueInfo);
+	}).error(function() {
+		newVenueInfo = '<h3>Oops!</h3>' +
+			'<p>We are unable to access the Foursquare servers at this time.<br />Please try again later.</p>';
+		listItem.marker.infoWindow.content = newVenueInfo;
 	});
 };
 
@@ -139,9 +138,9 @@ function initMarkers() {
   	};
 };
 
-function attachInfoWindow(marker, foursquareContent) {
+function attachInfoWindow(marker, placeholderInfo) {
 	marker.infoWindow = new google.maps.InfoWindow({
-		content: foursquareContent
+		content: placeholderInfo
 	});
 	marker.addListener('click', function() { 
 		displayInfoWindow(marker); 
