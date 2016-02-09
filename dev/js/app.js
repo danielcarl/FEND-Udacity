@@ -1,9 +1,9 @@
 
-// initialize variables for Google Maps
+// Initialize variables for Google Maps.
 var markers = [];
 var map;
 
-// initialize variables for Foursquare
+// Initialize variables for Foursquare.
 var foursquare_url = "https://api.foursquare.com/v2/venues/";
 var foursquare_client_id = "IRLUA2C3M4OIYMTXTV0XJWLMIZJHTAVELIUODGPODGBEXSPD";
 var foursquare_client_secret = "0GJ300SJ5L3QH2KJO5HWA01DHFNEC1H14UE3T3IR3X50QHQM";
@@ -13,19 +13,19 @@ var neighborhood = {
 	"name" : "South Congress",
 	"city" : "Austin",
 	"state" : "TX",
-	"postalCode" : 78704,
 	"latLng" : {lat: 30.2549803, lng: -97.7494088}
 };
 
 var places = [
-	{"name" : "Alamo Drafthouse", "category" : "Entertainment", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info"><h3>This is id 1</h3></div>'},
-	{"name" : "Buzz Mill Coffee", "category" : "Coffee Shops", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info"><h3>This is id 2</h3></div>'},
-	{"name" : "Chupacapra Cantina", "category" : "Nightlife", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info"><h3>This is id 3</h3></div>'},
-	{"name" : "Whip In", "category" : "Dining", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info"><h3>This is id 4</h3></div>'},
-	{"name" : "Frank", "category" : "Dining", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info"><h3>This is id 5</h3></div>'}
+	{"name" : "Alamo Drafthouse", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
+	{"name" : "Buzz Mill Coffee", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
+	{"name" : "Chupacapra Cantina", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
+	{"name" : "Whip In", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
+	{"name" : "Frank", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'}
 ];
 
 // This function is not included in the minified version of Knockout, so I included it here.
+// Used to filter list items from the beginning of the string.
 ko.utils.stringStartsWith = function (string, startsWith) {        	
     string = string || "";
     if (startsWith.length > string.length)
@@ -33,20 +33,20 @@ ko.utils.stringStartsWith = function (string, startsWith) {
     return string.substring(0, startsWith.length) === startsWith;
 };
 
+// ViewModel containing Knockout related functions.
 var neighborhoodViewModel = function() {
 
 	var self = this;
 	self.neighborhoodName = ko.observable(neighborhood.name);
 	self.neighborhoodCity = ko.observable(neighborhood.city);
 	self.neighborhoodState = ko.observable(neighborhood.state);
-	self.neighborhoodPostalCode = ko.observable(neighborhood.postalCode);
 
-	// Creates observable array for points of interest; used to create searchable array
+	// Creates observable array for points of interest; used to create searchable array.
 	self.pointsOfInterest = ko.observableArray(places);
 
 	// Creates a computed string for city, state, and zip. Used to allow for cleaner display in map header.
 	self.neighborhoodCityState = ko.computed(function() {
-		return self.neighborhoodCity() + ', ' + self.neighborhoodState() + ' ' + self.neighborhoodPostalCode();
+		return 'Highlights of the ' + self.neighborhoodName() + ' neighborhood in ' + self.neighborhoodCity() + ', ' + self.neighborhoodState();
 	}, this);
 
 	// Search filter for point of interst list. Modified from http://codepen.io/JohnMav/pen/OVEzWM/ -
@@ -63,36 +63,38 @@ var neighborhoodViewModel = function() {
 			for (var filteredArrayResult in filteredArrayResults) {
 				if (markers[marker].title == filteredArrayResults[filteredArrayResult].name) {
 					markers[marker].setVisible(true);
-				};
-			};
-		};
+				}
+			}
+		}
 		return filteredArrayResults;
 	});
 
-	// Refactored to use new marker object within places array
 	self.displayInfoWindowFromList = function(listItem) {
 		displayInfoWindow(listItem.marker);
 	};
 };
 
-// loops through the markers array and makes all invisible, including infoWindows
+// Loops through the markers array and makes all invisible, including infoWindows.
 function hideMarkers() {
 	closeInfoWindows();
 	for (var marker in markers) {
 		markers[marker].setVisible(false);
-	};
-};
+	}
+}
 
+// Initialized the Google map.
 function initMap() {
 	var mapOptions = {
 		zoom: 14,
 		center: neighborhood.latLng,
 		disableDefaultUI: true
 	};
-  	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	initMarkers();
-};
+}
 
+// Fetches Foursquare data for a given location, then updates the location's marker once the data is returned.
+// Provides an error message to the user if the fetch is unsuccessful.
 function fetchFoursquareData(listItem) {
 	foursquareQuery = foursquare_url + listItem.foursquare_id + '?client_id=' + foursquare_client_id + '&client_secret=' + foursquare_client_secret + '&v=' + foursquare_api_version;
 	var newVenueInfo;
@@ -112,14 +114,16 @@ function fetchFoursquareData(listItem) {
 			newVenueInfo = '<div class="info"><h3>Oops!</h3>' +
 				'<p>We are unable to access the Foursquare servers at this time.<br />Please try again later.</p></div>';
 			listItem.marker.infoWindow.content = newVenueInfo;
-		};
+		}
 	}).error(function() {
 		newVenueInfo = '<div class="info"><h3>Oops!</h3>' +
 			'<p>We are unable to access the Foursquare servers at this time.<br />Please try again later.</p></div>';
 		listItem.marker.infoWindow.content = newVenueInfo;
 	});
-};
+}
 
+// Initializes all map markers and places them on the map, 
+// then performs a JSON call to update the contents of their respecitve infoWindows.
 function initMarkers() {
 	for (var place in places) {
   		var marker = new google.maps.Marker({
@@ -128,22 +132,24 @@ function initMarkers() {
   		});
   		attachInfoWindow(marker, places[place].venueInfo);
   		marker.setMap(map);
-  		// creates an array of markers, used to set visibility with the search window
+  		// Creates an array of markers, used to set visibility with the search window
   		markers.push(marker);
   		places[place].marker = marker;
   		fetchFoursquareData(places[place]);
-  	};
-};
+  	}
+}
 
-function attachInfoWindow(marker, placeholderInfo) {
+// Creates a new info window for a given marker with the given windowContents
+function attachInfoWindow(marker, windowContents) {
 	marker.infoWindow = new google.maps.InfoWindow({
-		content: placeholderInfo
+		content: windowContents
 	});
 	marker.addListener('click', function() { 
 		displayInfoWindow(marker); 
 	});
-};
+}
 
+// Opens an infoWindow on a marker and causes it to bounce three times, after closing any infoWindows that are already open
 function displayInfoWindow(marker) {
 	closeInfoWindows();
 	marker.infoWindow.open(marker.get('map'), marker);
@@ -151,14 +157,15 @@ function displayInfoWindow(marker) {
 	setTimeout(function() {
 		marker.setAnimation(null);
 	}, 2100);
-};
+}
 
+// Loops through the marker array and closes any open infoWindows
 function closeInfoWindows() {
 	for (var marker in markers) {
 		if(markers[marker].infoWindow) {
 			markers[marker].infoWindow.close();
-		};
-	};
-};
+		}
+	}
+}
 
 ko.applyBindings(new neighborhoodViewModel());
