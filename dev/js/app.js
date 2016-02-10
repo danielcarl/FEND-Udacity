@@ -10,18 +10,18 @@ var foursquare_client_secret = "0GJ300SJ5L3QH2KJO5HWA01DHFNEC1H14UE3T3IR3X50QHQM
 var foursquare_api_version = "20130815";
 
 var neighborhood = {
-	"name" : "South Congress",
+	"name" : "Downtown",
 	"city" : "Austin",
 	"state" : "TX",
-	"latLng" : {lat: 30.2549803, lng: -97.7494088}
+	"latLng" : {lat: 30.26500000, lng: -97.7494088}
 };
 
 var places = [
-	{"name" : "Alamo Drafthouse", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
-	{"name" : "Buzz Mill Coffee", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
-	{"name" : "Chupacapra Cantina", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
-	{"name" : "Whip In", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'},
-	{"name" : "Frank", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info"><h3>Loading...</h3></div>'}
+	{"name" : "Alamo Drafthouse", "latLng" : {lat: 30.26740491712606, lng: -97.73960530757904}, "foursquare_id" : "47da763df964a520354e1fe3", "venueInfo" : '<div class="info"><h4>Loading...</h4></div>'},
+	{"name" : "Buzz Mill Coffee", "latLng" : {lat: 30.241629596533603, lng: -97.72691134530518}, "foursquare_id" : "50f83adbe4b07caf91d42233", "venueInfo" : '<div class="info"><h4>Loading...</h4></div>'},
+	{"name" : "Chupacapra Cantina", "latLng" : {lat: 30.267302671133297, lng: -97.73915850583938}, "foursquare_id" : "4ae7c2aef964a52091ad21e3", "venueInfo" : '<div class="info"><h4>Loading...</h4></div>'},
+	{"name" : "Whip In", "latLng" : {lat: 30.237910801433646, lng: -97.73939721137917}, "foursquare_id" : "49bc22ebf964a5201a541fe3", "venueInfo" : '<div class="info"><h4>Loading...</h4></div>'},
+	{"name" : "Frank", "latLng" : {lat: 30.266934650908162, lng: -97.74432599544525}, "foursquare_id" : "4a5689b8f964a52059b51fe3", "venueInfo" : '<div class="info"><h4>Loading...</h4></div>'}
 ];
 
 // This function is not included in the minified version of Knockout, so I included it here.
@@ -85,7 +85,7 @@ function hideMarkers() {
 // Initialized the Google map.
 function initMap() {
 	var mapOptions = {
-		zoom: 14,
+		zoom: 13,
 		center: neighborhood.latLng,
 		disableDefaultUI: true
 	};
@@ -105,7 +105,7 @@ function fetchFoursquareData(listItem) {
 			var venueURL = data.response.venue.url;
 			var venueFoursquareURL = data.response.venue.canonicalUrl;
 			var venueRating = data.response.venue.rating;
-			newVenueInfo = '<div class="info"><h3>' + venueName + '</h3>' +
+			newVenueInfo = '<div class="info"><h4>' + venueName + '</h4>' +
 				'<p>Foursquare rating: ' + venueRating + '<br />' + 
 				'<a href="' + venueFoursquareURL + '" target="new_fs">View on Foursquare</a><br />' +
 				'<a href="' + venueURL + '" target="new_h">View homepage</a></p></div>';
