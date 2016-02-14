@@ -87,7 +87,9 @@ function initMap() {
 	var mapOptions = {
 		zoom: 13,
 		center: neighborhood.latLng,
-		disableDefaultUI: true
+		disableDefaultUI: true,
+		draggable: false,
+		disableDoubleClickZoom: true
 	};
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	initMarkers();

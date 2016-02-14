@@ -5,43 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FEND Project 5: Neighborhood Map Project</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3" id="search-list">
-          <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> <input class="search-input" placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
+      <div class="container">
+        <div>
+          <div id="search-list">
+            <input class="search-input" placeholder="Narrow results..." type="search" data-bind="textInput: query, valueUpdate: 'keyup'"></input>
+          </div>
+          <div id="map-header">
+            <h1><span data-bind="text: neighborhoodCityState()"></h1>
+          </div>
         </div>
-        <div class="col-md-9" id="tab-header">
-          <h1><span data-bind="text: neighborhoodCityState()"></h1>
+        <div>
+          <div id="search-results">                        
+            <table id="pointOfInterestList">
+              <tbody data-bind="foreach: search()">
+                <tr>
+                  <td class="poi"><a href="#" data-bind="click: $root.displayInfoWindowFromList"><span data-bind="text: name"></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="map-container">
+            <div id="map-canvas"></div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3" id="search-results">                        
-          <table id="pointOfInterestList">
-            <thead>
-              <tr>
-                <th>Point of Interest</th>
-              </tr>
-            </thead>
-            <tbody data-bind="foreach: search()">
-              <tr>
-                <td class="poi"><a href="#" data-bind="click: $root.displayInfoWindowFromList"><span data-bind="text: name"></a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-9 map-container">
-          <div id="map-canvas"></div>
-        </div>
-      </div>
-    </div> <!-- container -->  
+      </div> <!-- container --> 
     <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEpUAAMPTdFHFUZq_aQmMcPPxoe0YsfV8&callback=initMap"></script> 
     <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/knockout-3.3.0.js"></script>
     <script src="js/app.js"></script>
   </body>
