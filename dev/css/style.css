@@ -10,8 +10,8 @@ html, body {
 }
 
 #search-list {
-  height: 50px;
   width: 200px;
+  height: 50px;
   background-color: #888888;
 }
 
@@ -26,12 +26,18 @@ html, body {
 #search-results {
   width: 200px;
   height: 450px;
+  text-align: center;
   background-color: #222222;
 }
 
+.poi {
+  width: 200px;
+  border: 1px solid white;
+}
+
 #tab-header {
-  height: 50px;
   width: 600px;
+  height: 50px;
   background-color: #555555;
   text-align: center;
 }
@@ -42,8 +48,8 @@ html, body {
 }
 
 .map-container {
-  height: 450px;
   width: 600px;
+  height: 450px;
   padding: 0px;
   background-color: #000000;
 }
