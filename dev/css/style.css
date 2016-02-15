@@ -5,72 +5,139 @@ html, body {
     padding: 0;
 }
 
-.container {
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0px;
-}
-
-#search-list {
-  width: 200px;
-  height: 50px;
-  float: left;
-  text-align: center;
-  background-color: #000000;
-}
-
-#search-list .search-input {
-  margin-top: 15px;
-}
-
-#search-results {
-  width: 200px;
-  height: 450px;
-  float: left;
-  text-align: center;
-  background-color: #000000;
-  border-top: 1px solid #ffffff;
-}
-
-.poi {
-  width: 200px;
-  height: 40px;
-  border-bottom: 1px solid #ffffff;
-}
-
-.poi a {
-  color: #ffffff;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-#map-header {
-  width: 600px;
-  height: 50px;
-  float: right;
-  background-color: #000000;
-  text-align: center;
-}
-
-#map-header h1 {
-  font-size: 18px;
-  color: #ffffff;
-  margin: 15px;
-}
-
-.map-container {
-  width: 600px;
-  height: 450px;
-  float: right;
-  padding: 0px;
-  background-color: #000000;
-}
-
 #map-canvas {
   height: 100%;
 }
 
+@media (min-width: 800px) {
+
+  .container {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+  }
+
+  #search-list {
+    width: 200px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    background-color: #000000;
+  }
+
+  #search-list .search-input {
+    margin-top: 15px;
+  }
+
+  #search-results {
+    width: 200px;
+    height: 450px;
+    float: left;
+    text-align: center;
+    background-color: #000000;
+    border-top: 1px solid #ffffff;
+  }
+
+  .poi {
+    width: 200px;
+    height: 40px;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  .poi a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  #map-header {
+    width: 600px;
+    height: 50px;
+    float: right;
+    background-color: #000000;
+    text-align: center;
+  }
+
+  #map-header h1 {
+    font-size: 18px;
+    color: #ffffff;
+    margin: 15px;
+  }
+
+  .map-container {
+    width: 600px;
+    height: 450px;
+    float: right;
+    padding: 0px;
+    background-color: #000000;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 799px) {
+
+  .container {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+  }
+
+  #search-list {
+    width: 0px;
+    height: 0px;
+    visibility: hidden;
+  }
+
+  #search-list .search-input {
+    width: 0px;
+    height: 0px;
+    visibility: hidden;
+  }  
+
+  .poi {
+    width: 0px;
+    height: 0px;    
+    visibility: hidden;
+  }
+
+  .poi a {
+    width: 0px;
+    height: 0px;
+    visibility: hidden;
+  }
+
+  #search-results {
+    width: 0px;
+    height: 0px;
+    visibility: hidden;
+  }
+
+  #map-header {
+    width: 600px;
+    height: 50px;
+    float: right;
+    background-color: #000000;
+    border: 1px solid yellow;
+    text-align: center;
+  }
+
+  #map-header h1 {
+    font-size: 18px;
+    color: #ffffff;
+    margin: 15px;
+  }
+
+  .map-container {
+    width: 600px;
+    height: 450px;
+    float: right;
+    padding: 0px;
+    vertical-align: top;
+    border: 1px solid blue;
+    background-color: #000000;
+  }
+}
 /* phone-specific css */
 
 
