@@ -155,3 +155,85 @@ html, body {
 }
 
 /* phone-specific css */
+@media (max-width: 599px) {
+  .container {
+    width: 320px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+  }
+
+  #search-list {
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+    top: 30px;
+    left: 0px;
+    text-align: center;
+    background-color: #000000;
+    opacity: .50; /* Standard: FF gt 1.5, Opera, Safari, CSS3 */
+    -ms-filter: "alpha(opacity=50)"; /* IE 8 */
+    -khtml-opacity: .50; /* Safari 1.x */
+    -moz-opacity: .50; /* FF lt 1.5, Netscape */
+  }
+
+  #search-list .search-input {
+    margin-top: 15px;
+  }  
+
+  .poi {
+    width: 200px;
+    height: 40px;
+    background-color: #000000;
+    border-bottom: 1px solid #ffffff;   
+  }
+
+  .poi a {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 10px;
+    text-decoration: none;
+  }
+
+  #search-results {
+    width: 200px;
+    height: 398px;
+    position: absolute;
+    z-index: 1;
+    top: 80px;
+    left: 0px;
+    text-align: center;
+    background-color: #000000;
+    opacity: .50; /* Standard: FF gt 1.5, Opera, Safari, CSS3 */
+    -ms-filter: "alpha(opacity=50)"; /* IE 8 */
+    -khtml-opacity: .50; /* Safari 1.x */
+    -moz-opacity: .50; /* FF lt 1.5, Netscape */
+    border-top: 1px solid #ffffff;
+  }
+
+  #map-header {
+    width: 320px;
+    height: 30px;
+    float: right;
+    background-color: #000000;
+    text-align: center;
+  }
+
+  #map-header h1 {
+    font-size: 10px;
+    color: #ffffff;
+    margin: 10px;
+  }
+
+  .map-container {
+    width: 320px;
+    height: 450px;
+    float: right;
+    padding: 0px;
+    vertical-align: top;
+    background-color: #000000;
+  }
+
+}
