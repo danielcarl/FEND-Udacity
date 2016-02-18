@@ -9,10 +9,12 @@ html, body {
   height: 100%;
 }
 
+/* website optimized css */
 @media (min-width: 800px) {
 
   .container {
     width: 800px;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     padding: 0px;
@@ -21,7 +23,9 @@ html, body {
   #search-list {
     width: 200px;
     height: 50px;
-    float: left;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     text-align: center;
     background-color: #000000;
   }
@@ -32,8 +36,10 @@ html, body {
 
   #search-results {
     width: 200px;
-    height: 450px;
-    float: left;
+    height: 448px;
+    position: absolute;
+    top: 50px;
+    left: 0px;
     text-align: center;
     background-color: #000000;
     border-top: 1px solid #ffffff;
@@ -74,43 +80,54 @@ html, body {
   }
 }
 
+/* tablet optimized css */
 @media (min-width: 600px) and (max-width: 799px) {
 
   .container {
     width: 600px;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     padding: 0px;
   }
 
   #search-list {
-    width: 0px;
-    height: 0px;
-    visibility: hidden;
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 0px;
+    text-align: center;
+    background-color: #000000;
   }
 
   #search-list .search-input {
-    width: 0px;
-    height: 0px;
-    visibility: hidden;
+    margin-top: 15px;
   }  
 
   .poi {
-    width: 0px;
-    height: 0px;    
-    visibility: hidden;
+    width: 200px;
+    height: 40px;
+    border-bottom: 1px solid #ffffff;   
   }
 
   .poi a {
-    width: 0px;
-    height: 0px;
-    visibility: hidden;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
   }
 
   #search-results {
-    width: 0px;
-    height: 0px;
-    visibility: hidden;
+    width: 200px;
+    height: 398px;
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 0px;
+    text-align: center;
+    background-color: #000000;
+    border-top: 1px solid #ffffff;
   }
 
   #map-header {
@@ -118,7 +135,6 @@ html, body {
     height: 50px;
     float: right;
     background-color: #000000;
-    border: 1px solid yellow;
     text-align: center;
   }
 
@@ -134,14 +150,8 @@ html, body {
     float: right;
     padding: 0px;
     vertical-align: top;
-    border: 1px solid blue;
     background-color: #000000;
   }
 }
+
 /* phone-specific css */
-
-
-/* tablet-specific css */
-
-
-/* website css */
