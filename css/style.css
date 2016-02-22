@@ -57,6 +57,10 @@ html, body {
     text-decoration: none;
   }
 
+  .hamburger {
+    display: none;
+  }
+
   #map-header {
     width: 600px;
     height: 50px;
@@ -128,6 +132,10 @@ html, body {
     text-align: center;
     background-color: #000000;
     border-top: 1px solid #ffffff;
+  }
+
+  .hamburger {
+    display: none;
   }
 
   #map-header {
@@ -211,6 +219,11 @@ html, body {
     -khtml-opacity: .50; /* Safari 1.x */
     -moz-opacity: .50; /* FF lt 1.5, Netscape */
     border-top: 1px solid #ffffff;
+  }
+
+  .hamburger {
+    font-size: 8px;
+    padding-right: 8px;
   }
 
   #map-header {

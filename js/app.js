@@ -161,6 +161,10 @@ function displayInfoWindow(marker) {
 	}, 2100);
 }
 
+$(".hamburger").click(function() {
+	$("#search-results").toggle();
+});
+
 // Loops through the marker array and closes any open infoWindows
 function closeInfoWindows() {
 	for (var marker in markers) {

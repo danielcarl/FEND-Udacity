@@ -1,6 +1,0 @@
-Additional Tasks
-* Add a call to fitBounds() to make certain all markers fit in map frame
-* Idea: add a 'slideshow' option - navigate the point of interest list one item at a time, center the map on the location, and display the infoWindow contents
-* Don't forget error events (display when Google Maps / Wikipedia are offline)
-* Fix latLng values (all appear offset from actual locations in map)
-* Idea: if an open infoBox exists on a marker that is still viewable after filtering, leave the infoBox open.

@@ -1,8 +1,0 @@
-Neighborhood Map references
-* Google Maps book
-* Knockout JS book
-* Udacity forums (JSFiddle example)
-* StackOverflow (using excluded KO utilities)
-
-Post-mortem
-* Occham's razor - always see if what you are doing already exists (example: marker.setVisible())
