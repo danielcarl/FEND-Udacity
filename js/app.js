@@ -82,13 +82,17 @@ function hideMarkers() {
 	}
 }
 
+// Error handling for Google map.
+function mapFail() {
+	alert("Google Maps failed to load.");
+}
+
 // Initialized the Google map.
 function initMap() {
 	var mapOptions = {
 		zoom: 13,
 		center: neighborhood.latLng,
 		disableDefaultUI: true,
-		draggable: false,
 		disableDoubleClickZoom: true
 	};
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -162,7 +166,7 @@ function displayInfoWindow(marker) {
 }
 
 $(".hamburger").click(function() {
-	$("#search-results").toggle();
+	$(".search-results").toggle();
 });
 
 // Loops through the marker array and closes any open infoWindows
