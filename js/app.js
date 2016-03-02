@@ -82,17 +82,20 @@ function hideMarkers() {
 	}
 }
 
+function mapLoadError() {
+	$('#map-canvas').append("<p>There was an error loading the map. Please try again later.</p>");
+}
+
 // Initialized the Google map.
 function initMap() {
 	var mapOptions = {
 		zoom: 13,
 		center: neighborhood.latLng,
 		disableDefaultUI: true,
-		draggable: false,
 		disableDoubleClickZoom: true
 	};
-  	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  	initMarkers();
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  initMarkers();
 }
 
 // Fetches Foursquare data for a given location, then updates the location's marker once the data is returned.
@@ -162,7 +165,7 @@ function displayInfoWindow(marker) {
 }
 
 $(".hamburger").click(function() {
-	$("#search-results").toggle();
+	$(".search-results").toggle();
 });
 
 // Loops through the marker array and closes any open infoWindows
