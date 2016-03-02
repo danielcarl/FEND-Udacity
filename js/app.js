@@ -82,9 +82,8 @@ function hideMarkers() {
 	}
 }
 
-// Error handling for Google map.
-function mapFail() {
-	alert("Google Maps failed to load.");
+function mapLoadError() {
+	$('#map-canvas').append("<p>There was an error loading the map. Please try again later.</p>");
 }
 
 // Initialized the Google map.
@@ -95,8 +94,8 @@ function initMap() {
 		disableDefaultUI: true,
 		disableDoubleClickZoom: true
 	};
-  	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  	initMarkers();
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  initMarkers();
 }
 
 // Fetches Foursquare data for a given location, then updates the location's marker once the data is returned.

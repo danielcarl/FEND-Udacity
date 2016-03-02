@@ -10,8 +10,10 @@ body {
   height: 100%;
 }
 
-#map-canvas h1 {
-  color: #ffffff;
+#map-canvas p {
+  color: #ffff00;
+  text-align: center;
+  padding-top: 50px;
 }
 
 /* website optimized css */
