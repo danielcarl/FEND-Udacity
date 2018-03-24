@@ -1,11 +1,13 @@
 # Udacity Full Stack Nanodegree Projects #
 
-## Contents ##
+## Projects ##
 
-* Portfolio
-* Online Resume
-* Neighborhood Map
-* Feed Reader Testing
+* 01 Portfolio
+* 02 Online Resume
+* 03 Arcade Game
+* 04 Mobile Website Optimization
+* 05 Neighborhood Map
+* 06 Feed Reader Testing with Jasmine
 
 ## Taks ##
 
