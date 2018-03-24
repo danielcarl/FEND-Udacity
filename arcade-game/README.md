@@ -13,10 +13,10 @@ reach the water, you win!
 
 ## Movement ##
 
-Left arrow (<) moves your player left
-Right arrow (>) moves your player right
-Up arrow (^) moves your player up
-Down arrow (v) moves your player down
+* Left arrow (<) moves your player left
+* Right arrow (>) moves your player right
+* Up arrow (^) moves your player up
+* Down arrow (v) moves your player down
 
 
 ## Version History ##
