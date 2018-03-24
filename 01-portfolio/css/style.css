@@ -1,0 +1,63 @@
+/* general styling */
+
+body {
+	font-family: 'Lato', sans-serif;
+	color: #747704;
+	font-weight: 300;
+}
+
+hr {
+	height: 3px;
+	color: #BCBBBB;
+	margin-top: 5px;
+	background-color: #BCBBBB;
+}
+
+.text-muted {
+	color: #BCBBBB;
+}
+
+.text-thin {
+	font-weight: 100;
+}
+
+.title-super {
+	font-size: 60px;
+}
+
+.title-sub {
+	font-weight: bold;
+}
+
+.title-logo {
+	margin-top: 20px;
+}
+
+.featured-title {
+	font-weight: bold;
+}
+
+.featured-link {
+	color: #747704;
+}
+
+
+/* TODO: While the above meet the requirements of the course, in the future I want to create 
+		 additional layouts for different screen sizes. Additional overrides will go here.	*/
+
+/* small screen overide */
+@media screen and (max-width: 800px) {
+	/* Hide the icon on screens 800px and smaller to improve layout on small screens.
+	   Version 2 (TODO): overlay icon and name / title on top of main image. */
+	.icon {
+		display: none;
+	}
+}
+
+/* large screen override */
+@media screen and (min-width: 801px) {
+	.container {
+		max-width: 800px;
+	}
+
+}
