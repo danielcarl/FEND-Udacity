@@ -2,7 +2,7 @@
   "name": "project-one",
   "version": "0.1.0",
   "devDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": ">=1.3.0"
   },
   "dependencies": {
     "grunt-responsive-images": "^0.1.6"
